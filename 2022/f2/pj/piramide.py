@@ -1,20 +1,18 @@
 n=int(input())
-matriz=[[0 for i in range(n)] for i in range(n)]
-inc=1
-pos=0
-def oddeven(n):
-    if n%2==0:
-        return n/2
+matriz=[[1 for i in range(n)]for i in range(n)]
+def height(x):
+    if x%2==0:
+        return x//2
     else:
-        return(n//2+1)
-rang=int(oddeven(n))
-while pos<(rang):
-    for i in range(rang):
-        for j in range(rang):
-            matriz[i][pos]=inc
-            matriz[pos][j]=inc
-            matriz[i][(n-1-pos)]=inc
-            matriz[(n-1-pos)][j]=inc
-        pos+=1
-        inc+=1
-print(matriz)
+        return(x//2)+1
+h=height(n)
+count=n
+start=0
+for k in range(h-1):
+    for i in range(start,count-2):
+        for j in range(start,count-2):
+            matriz[i+1][j+1]+=1
+    count-=1
+    start+=1
+for i in range(n):
+    print(" ".join(map(str, matriz[i])))
