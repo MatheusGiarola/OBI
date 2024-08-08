@@ -1,9 +1,3 @@
-def p(n):
-    if n%2==0:
-        return n
-    else:
-        return None
-numeros=[]
-numeros.extend([p(2),p(6)])
-numeros.append(p(3))
-print(numeros)
+dic={5:[1,2,3,4],2:[1], 3:[3,4,5,6] }
+print(dic[5])
+print(dic[1])
