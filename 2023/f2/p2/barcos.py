@@ -8,15 +8,15 @@ for i in range(6):
     if y not in grafo:
         grafo[y]={}
     grafo[y][x]=c
-ilhas=[float('inf') for _ in range(n)] 
 c=int(input())
 for i in range(c):
     x,y=map(int, input().split())
+    ilhas=[float('inf') for _ in range(n)]
     visitados=set()
     fila=[x]
+    visitados.add(x)
     while fila:
         atual=fila.pop(0)
-        visitados.add(atual)
         vizinhos=grafo.get(atual)
         if vizinhos != None:
             capacidades=[]
@@ -24,6 +24,9 @@ for i in range(c):
                 if vizinho not in visitados:
                     fila.append(vizinho)
                     visitados.add(vizinho)
+                    ilhas[vizinho-1]=min(ilhas[atual-1],grafo[atual][vizinho])
+                else:
+                    if ilhas[vizinho-1]<grafo[atual][vizinho]:
+                        ilhas[vizinho-1]=grafo[atual][vizinho]
                 
-                ilhas[vizinho-1]=min(ilhas[atual-1],grafo[atual][vizinho])
     print(ilhas[y-1])
