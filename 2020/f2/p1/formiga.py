@@ -1,43 +1,35 @@
 s,t,p=map(int, input().split())
-alturas=[int(x) for x in input().split()]
-tuneis={}
-for i in range(t):
-    x,y=map(int, input().split())
-    hx=alturas[x-1]
-    hy=alturas[y-1]
-    if hx>hy:
-        if x in tuneis:
-            tuneis[x].append(y)
-        else:
-            tuneis[x]=[y]
-    else:
-        if y in tuneis:
-            tuneis[y].append(x)
-        else:
-            tuneis[y]=[x]
-visitados=set()
-stack=[p]
-maior=0
+alturas=list(map(int, input().split()))
+caminhos={}
 profundidade=0
-while stack:
-    atual=stack[-1]
-    possib=tuneis.get(atual,0)
-    if possib==0:
-        stack.pop()
-        profundidade-=1
-        visitados.add(atual)
+maiorProfundidade=0
+for i in range(t):
+    i,j=map(int, input().split())
+    if alturas[i-1]>alturas[j-1]:
+        maior=i
+        menor=j
     else:
-        verifier=0
-        for i in range(len(possib)):
-            if possib[i] not in visitados:
-                stack.append(possib[i])
-                profundidade+=1
-                if profundidade>maior:
-                    maior=profundidade
-                verifier+=1
-                break
-        if verifier==0:
-            profundidade-=1
-            stack.pop()
-            visitados.add(atual)
-print(maior)
+        maior=j
+        menor=i
+    if maior not in caminhos:
+        caminhos[maior]=[]
+    caminhos[maior].append(menor)
+visitados=set()
+
+def dfs(salao,depth,maiorP):
+    vizinhos=caminhos.get(salao)
+    visitados.add(salao)
+    if vizinhos==None:
+        if depth>maiorP:
+            maiorP=depth
+        depth-=1
+        return maiorP
+    else:
+        depth+=1
+        for vizinho in vizinhos:
+            if vizinho not in visitados:
+                maiorP=dfs(vizinho, depth, maiorP)  
+            return maiorP
+        
+maiorProfundidade=dfs(p,profundidade,maiorProfundidade)
+print(maiorProfundidade)
